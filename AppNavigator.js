@@ -8,10 +8,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import theme from './themes/DraftbitTheme.js';
 import LinkingConfiguration from './LinkingConfiguration.js';
 
-import ListImageDataCard1Screen from './screens/ListImageDataCard1Screen';
+import CreateScreen from './screens/CreateScreen';
+import EditScreen from './screens/EditScreen';
+import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import MainScreen from './screens/MainScreen';
-import PersoninfoinputScreen from './screens/PersoninfoinputScreen';
+import SearchCopyScreen from './screens/SearchCopyScreen';
+import SearchScreen from './screens/SearchScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -66,17 +68,65 @@ function Placeholder() {
     </View>
   );
 }
+function Main() {
+  return (
+    <Tab.Navigator
+      initialRouteName="HomeScreen"
+      tabBarOptions={{
+        showLabel: false,
+        style: { borderTopColor: 'transparent' },
+      }}
+    >
+      <Tab.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name="Feather/search"
+              size={25}
+              color={focused ? color : color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name="Ionicons/home"
+              size={25}
+              color={focused ? color : color}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="CreateScreen"
+        component={CreateScreen}
+        options={{
+          title: 'Create',
+          tabBarIcon: ({ focused, color }) => (
+            <Icon
+              name="Ionicons/ios-create"
+              size={25}
+              color={focused ? color : color}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
 export default function RootAppNavigator() {
   return (
     <NavigationContainer linking={LinkingConfiguration}>
       <Stack.Navigator>
-        <Stack.Screen
-          name="PersoninfoinputScreen"
-          component={PersoninfoinputScreen}
-          options={{
-            title: 'person info input',
-          }}
-        />
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
@@ -85,19 +135,13 @@ export default function RootAppNavigator() {
           }}
         />
         <Stack.Screen
-          name="MainScreen"
-          component={MainScreen}
+          name="EditScreen"
+          component={EditScreen}
           options={{
-            title: 'Main',
+            title: 'Edit',
           }}
         />
-        <Stack.Screen
-          name="ListImageDataCard1Screen"
-          component={ListImageDataCard1Screen}
-          options={{
-            title: 'List - Image Data Card 1',
-          }}
-        />
+        <Stack.Screen name="Main" component={Main} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,8 +1,10 @@
 import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
+import * as LoginApi from '../apis/LoginApi.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import showAlertUtil from '../utils/showAlert';
 import {
   Button,
   Icon,
@@ -10,7 +12,7 @@ import {
   TextInput,
   withTheme,
 } from '@draftbit/ui';
-import { Alert, Text, View, useWindowDimensions } from 'react-native';
+import { Alert, Platform, Text, View, useWindowDimensions } from 'react-native';
 
 const LoginScreen = props => {
   const dimensions = useWindowDimensions();
@@ -24,32 +26,71 @@ const LoginScreen = props => {
 
     /* String line breaks are accomplished with backticks ( example: `line one
 line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
-    if (userId == '') {
-      Alert.alert(
-        '错误',
-        '请输入账号',
-        [
-          {
-            text: 'OK',
-          },
-        ],
-        { cancelable: false }
-      );
-      return false;
-    } else if (password == '') {
-      Alert.alert(
-        '错误',
-        '请输入密码',
-        [
-          {
-            text: 'OK',
-          },
-        ],
-        { cancelable: false }
-      );
-      return false;
+    if (Platform.OS == 'ios' || Platform.OS == 'android') {
+      if (userId == '') {
+        Alert.alert(
+          '错误',
+          '请输入账号',
+          [
+            {
+              text: 'OK',
+            },
+          ],
+          { cancelable: false }
+        );
+        return false;
+      } else if (password == '') {
+        Alert.alert(
+          '错误',
+          '请输入密码',
+          [
+            {
+              text: 'OK',
+            },
+          ],
+          { cancelable: false }
+        );
+        return false;
+      }
+      return true;
+    } else {
+      if (userId == '') {
+        alert('请输入账号');
+        return false;
+      } else if (password == '') {
+        alert('请输入密码');
+        return false;
+      }
+      return true;
     }
-    return true;
+  };
+
+  const logcheck = Variables => {
+    // Type the code for the body of your function or hook here.
+    // Functions can be triggered via Button/Touchable actions.
+    // Hooks are run per ReactJS rules.
+
+    /* String line breaks are accomplished with backticks ( example: `line one
+line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
+    if (result == null || result == '') {
+      if (Platform.OS == 'ios' || Platform.OS == 'android') {
+        Alert.alert(
+          '错误',
+          '账号或密码错误',
+          [
+            {
+              text: 'OK',
+            },
+          ],
+          { cancelable: false }
+        );
+      } else {
+        alert('账号或密码错误');
+      }
+      return false;
+    } else {
+      return true;
+    }
   };
 
   const { theme } = props;
@@ -57,6 +98,7 @@ line two` ) and will not work with special characters inside of quotes ( example
 
   const [name, setName] = React.useState('管理员');
   const [password, setPassword] = React.useState('');
+  const [result, setResult] = React.useState({});
   const [textInputValue, setTextInputValue] = React.useState('');
   const [userId, setUserId] = React.useState('');
 
@@ -130,9 +172,10 @@ line two` ) and will not work with special characters inside of quotes ( example
               dimensions.width
             )}
             value={userId}
-            placeholder={'Please enter UID'}
+            placeholder={'请输入您的员工ID'}
             autoCapitalize={'none'}
             changeTextDelay={500}
+            placeholderTextColor={theme.colors['Light']}
           />
         </View>
         {/* passWord */}
@@ -172,33 +215,56 @@ line two` ) and will not work with special characters inside of quotes ( example
               dimensions.width
             )}
             value={password}
-            placeholder={'Please enter keyword'}
+            placeholder={'请输入您的登录密码'}
             autoCapitalize={'none'}
             changeTextDelay={500}
+            placeholderTextColor={theme.colors['Light']}
             secureTextEntry={true}
           />
         </View>
         <Button
           onPress={() => {
-            try {
-              const checkFlag = inputcheck(Variables);
-              if (checkFlag === false) {
-                return;
+            const handler = async () => {
+              try {
+                const checkFlag = inputcheck(Variables);
+                if (checkFlag === false) {
+                  return;
+                }
+                const result = (
+                  await LoginApi.loginPOST(Constants, {
+                    password: password,
+                    userId: userId,
+                  })
+                )?.json;
+                if (result?.type === 'LOGIN_FAILED') {
+                  showAlertUtil({
+                    title: '错误',
+                    message: '员工ID或密码错误',
+                    buttonText: 'OK',
+                  });
+                }
+                if (result?.type === 'LOGIN_FAILED') {
+                  return;
+                }
+                navigation.navigate('Main', {
+                  screen: 'HomeScreen',
+                  params: { name: result?.data.name },
+                });
+              } catch (err) {
+                console.error(err);
               }
-              navigation.navigate('MainScreen', { name: name });
-              console.log(name);
-            } catch (err) {
-              console.error(err);
-            }
+            };
+            handler();
           }}
           style={StyleSheet.applyWidth(
             StyleSheet.compose(GlobalStyles.ButtonStyles(theme)['Button'], {
               marginBottom: 25,
               marginTop: 20,
-              width: '40%',
+              width: '45%',
             }),
             dimensions.width
           )}
+          icon={'Feather/log-in'}
           title={'LOG IN'}
         />
       </View>

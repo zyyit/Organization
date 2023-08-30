@@ -5,9 +5,33 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DeviceVariables = {};
 const AppVariables = {
-  StaffDept: ['营业部', '销售部', '技术部', '管理部'],
-  StaffEducat: ['本科', '大专', '高中', '文盲'],
-  Staffstater: ['在职', '离职'],
+  Position: [
+    { label: '部长', value: '1' },
+    { label: '课长', value: '2' },
+    { label: '项目经理', value: '3' },
+    { label: '项目组长', value: '4' },
+    { label: '普通员工', value: '5' },
+  ],
+  StaffDept: [
+    { label: '营业部', value: '1' },
+    { label: '销售部', value: '2' },
+    { label: '技术开发部', value: '3' },
+    { label: '管理部', value: '4' },
+  ],
+  StaffEducat: [
+    { label: '研究生及以上', value: '1' },
+    { label: '本科', value: '2' },
+    { label: '大专', value: '3' },
+    { label: '高中', value: '4' },
+    { label: '初中及以下', value: '5' },
+  ],
+  StaffRole: [
+    { label: '管理员', value: '1' },
+    { label: '普通用户', value: '2' },
+  ],
+  Staffstater: ['1', '2'],
+  StaffstaterLabel: ['在职', '离职'],
+  seachResult: '',
 };
 const GlobalVariableContext = React.createContext();
 const GlobalVariableUpdater = React.createContext();

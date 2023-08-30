@@ -5,7 +5,6 @@ import {
   AntDesign,
   Entypo,
   Feather,
-  Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons';
@@ -32,7 +31,6 @@ export default function cacheAssetsAsync() {
     AntDesign.font,
     Entypo.font,
     Feather.font,
-    Ionicons.font,
     MaterialCommunityIcons.font,
     MaterialIcons.font,
   ]);
