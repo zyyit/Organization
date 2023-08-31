@@ -37,40 +37,6 @@ const CreateScreen = props => {
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
 
-  const insertMessage = () => {
-    // Type the code for the body of your function or hook here.
-    // Functions can be triggered via Button/Touchable actions.
-    // Hooks are run per ReactJS rules.
-
-    /* String line breaks are accomplished with backticks ( example: `line one
-line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
-    if (insertCode.code == '200') {
-      Alert.alert(
-        'Message',
-        'Success！',
-        [
-          {
-            text: 'OK',
-          },
-        ],
-        { cancelable: false }
-      );
-      return false;
-    } else {
-      Alert.alert(
-        'Message',
-        'Error',
-        [
-          {
-            text: 'OK',
-          },
-        ],
-        { cancelable: false }
-      );
-      return false;
-    }
-  };
-
   const convertBoolToString = boolText => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
@@ -183,6 +149,41 @@ line two` ) and will not work with special characters inside of quotes ( example
     }
   };
 
+  const insertMessage = Variables => {
+    // Type the code for the body of your function or hook here.
+    // Functions can be triggered via Button/Touchable actions.
+    // Hooks are run per ReactJS rules.
+
+    /* String line breaks are accomplished with backticks ( example: `line one
+line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
+    console.log(InsertCode);
+    if (InsertCode.code == 200) {
+      Alert.alert(
+        'Message',
+        'Success！',
+        [
+          {
+            text: 'OK',
+          },
+        ],
+        { cancelable: false }
+      );
+      return false;
+    } else {
+      Alert.alert(
+        'Message',
+        'Error!',
+        [
+          {
+            text: 'OK',
+          },
+        ],
+        { cancelable: false }
+      );
+      return false;
+    }
+  };
+
   const { theme } = props;
 
   const organizationInsertInfoPOST = OrganizationApi.useInsertInfoPOST();
@@ -197,6 +198,7 @@ line two` ) and will not work with special characters inside of quotes ( example
   const [EntryDate, setEntryDate] = React.useState(new Date());
   const [Graduate, setGraduate] = React.useState('');
   const [IDCard, setIDCard] = React.useState('');
+  const [InsertCode, setInsertCode] = React.useState({});
   const [Phone, setPhone] = React.useState('');
   const [PicArray, setPicArray] = React.useState([]);
   const [PositState, setPositState] = React.useState('');
@@ -213,7 +215,6 @@ line two` ) and will not work with special characters inside of quotes ( example
   const [checkboxRowValue, setCheckboxRowValue] = React.useState('');
   const [checkboxValue, setCheckboxValue] = React.useState(false);
   const [checkboxValue2, setCheckboxValue2] = React.useState(false);
-  const [insertCode, setInsertCode] = React.useState({});
   const [radioButtonGroupValue, setRadioButtonGroupValue] = React.useState('');
   const [radioButtonGroupValue2, setRadioButtonGroupValue2] =
     React.useState('');
@@ -588,7 +589,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 marginTop: 20,
                 paddingLeft: 20,
                 paddingRight: 20,
-                width: '110%',
+                width: '100%',
               },
               dimensions.width
             )}
@@ -596,11 +597,10 @@ line two` ) and will not work with special characters inside of quotes ( example
             <View
               style={StyleSheet.applyWidth(
                 {
-                  alignItems: 'stretch',
+                  alignItems: 'center',
                   flex: 1,
                   flexDirection: 'column',
-                  height: 60,
-                  justifyContent: 'flex-start',
+                  justifyContent: 'space-between',
                   paddingLeft: 0,
                   paddingRight: 2,
                 },
@@ -610,10 +610,11 @@ line two` ) and will not work with special characters inside of quotes ( example
               <Text
                 style={StyleSheet.applyWidth(
                   StyleSheet.compose(GlobalStyles.TextStyles(theme)['Text'], {
-                    alignSelf: 'auto',
+                    alignSelf: 'flex-start',
                     color: theme.colors['Medium'],
                     fontSize: 12,
-                    marginLeft: 28,
+                    marginLeft: 2,
+                    textAlign: 'left',
                   }),
                   dimensions.width
                 )}
@@ -630,7 +631,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   }
                 }}
                 style={StyleSheet.applyWidth(
-                  { marginLeft: 10, marginTop: 10 },
+                  { marginTop: 5 },
                   dimensions.width
                 )}
                 value={radioButtonGroupValue}
@@ -640,7 +641,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   style={StyleSheet.applyWidth(
                     StyleSheet.compose(GlobalStyles.TextStyles(theme)['Text'], {
                       color: theme.colors['Strong'],
-                      marginLeft: 15,
+                      marginLeft: 10,
                     }),
                     dimensions.width
                   )}
@@ -1017,7 +1018,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                     alignSelf: 'flex-start',
                     color: theme.colors['Medium'],
                     fontSize: 12,
-                    marginLeft: 20,
+                    marginLeft: 2,
                     textAlign: 'left',
                   }),
                   dimensions.width
@@ -1033,7 +1034,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                     alignItems: 'center',
                     flexDirection: 'row',
                     flexWrap: 'wrap',
-                    justifyContent: 'space-around',
+                    justifyContent: 'space-between',
+                    marginLeft: 10,
                     width: 300,
                   },
                   dimensions.width
@@ -1346,7 +1348,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               const handler = async () => {
                 try {
                   CheckInput(Variables);
-                  const insertCode = (
+                  const InsertCode = (
                     await organizationInsertInfoPOST.mutateAsync({
                       address: '西安市',
                       appTantouCd: 'admin',
@@ -1375,7 +1377,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                       work_status: radioButtonGroupValue,
                     })
                   )?.json;
-                  insertMessage();
+                  setInsertCode(InsertCode);
+                  insertMessage(Variables);
                 } catch (err) {
                   console.error(err);
                 }

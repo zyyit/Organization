@@ -64,10 +64,14 @@ export const ViewStyles = theme =>
 export const ActionSheetItemStyles = theme =>
   StyleSheet.create({ 'Action Sheet Item': { textAlign: 'center' } });
 
+export const BlurViewStyles = theme =>
+  StyleSheet.create({
+    'Blur View': { flexBasis: 0, flexGrow: 1, flexShrink: 1 },
+  });
+
 export const ButtonStyles = theme =>
   StyleSheet.create({
     Button: {
-      backgroundColor: theme.colors.primary,
       borderRadius: 8,
       fontFamily: 'System',
       fontWeight: '700',
