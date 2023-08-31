@@ -2,11 +2,14 @@ import React from 'react';
 import * as GlobalStyles from '../GlobalStyles.js';
 import * as OrganizationApi from '../apis/OrganizationApi.js';
 import * as GlobalVariables from '../config/GlobalVariableContext';
+import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import openImagePickerUtil from '../utils/openImagePicker';
 import showAlertUtil from '../utils/showAlert';
 import {
   Button,
+  Checkbox,
   DatePicker,
   Icon,
   Picker,
@@ -15,15 +18,24 @@ import {
   ScreenContainer,
   Switch,
   TextInput,
+  Touchable,
   withTheme,
 } from '@draftbit/ui';
-import { Alert, Platform, Text, View, useWindowDimensions } from 'react-native';
+import {
+  Alert,
+  Image,
+  Platform,
+  Text,
+  View,
+  useWindowDimensions,
+} from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const CreateScreen = props => {
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
+  const setGlobalVariableValue = GlobalVariables.useSetValue();
 
   const convertBoolToString = boolText => {
     // Type the code for the body of your function or hook here.
@@ -105,18 +117,6 @@ line two` ) and will not work with special characters inside of quotes ( example
           { cancelable: false }
         );
         return false;
-      } else if (Position == '' || Position == null) {
-        Alert.alert(
-          '错误',
-          '请选择员工职位！',
-          [
-            {
-              text: 'OK',
-            },
-          ],
-          { cancelable: false }
-        );
-        return false;
       } else if (RoleID == '' || RoleID == null) {
         Alert.alert(
           '错误',
@@ -141,9 +141,6 @@ line two` ) and will not work with special characters inside of quotes ( example
       } else if (EmployPassWord == '') {
         alert('密码为空！');
         return false;
-      } else if (Position == '') {
-        alert('请选择员工职位！');
-        return false;
       } else if (RoleID == '') {
         alert('请选择员工角色！');
         return false;
@@ -167,6 +164,7 @@ line two` ) and will not work with special characters inside of quotes ( example
   const [Graduate, setGraduate] = React.useState('');
   const [IDCard, setIDCard] = React.useState('');
   const [Phone, setPhone] = React.useState('');
+  const [PicArray, setPicArray] = React.useState([]);
   const [PositState, setPositState] = React.useState('');
   const [Position, setPosition] = React.useState('');
   const [PositionTime, setPositionTime] = React.useState(new Date());
@@ -174,14 +172,24 @@ line two` ) and will not work with special characters inside of quotes ( example
   const [StaffDept, setStaffDept] = React.useState('');
   const [StaffEducation, setStaffEducation] = React.useState('');
   const [StaffState, setStaffState] = React.useState('');
+  const [UserPicture, setUserPicture] = React.useState(false);
+  const [checkbox2Value, setCheckbox2Value] = React.useState(false);
+  const [checkboxRow2Value, setCheckboxRow2Value] = React.useState('');
+  const [checkboxRow3Value, setCheckboxRow3Value] = React.useState('');
+  const [checkboxRowValue, setCheckboxRowValue] = React.useState('');
+  const [checkboxValue, setCheckboxValue] = React.useState(false);
+  const [checkboxValue2, setCheckboxValue2] = React.useState(false);
   const [radioButtonGroupValue, setRadioButtonGroupValue] = React.useState('');
+  const [radioButtonGroupValue2, setRadioButtonGroupValue2] =
+    React.useState('');
+  const [returnsImageData, setReturnsImageData] = React.useState('');
 
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
       <KeyboardAwareScrollView
-        enableAutomaticScroll={true}
-        enableOnAndroid={true}
-        enableResetScrollToCoords={true}
+        enableAutomaticScroll={false}
+        enableOnAndroid={false}
+        enableResetScrollToCoords={false}
         keyboardShouldPersistTaps={'never'}
         showsVerticalScrollIndicator={false}
       >
@@ -197,6 +205,126 @@ line two` ) and will not work with special characters inside of quotes ( example
             dimensions.width
           )}
         >
+          {/* Photo */}
+          <View
+            style={StyleSheet.applyWidth(
+              { alignItems: 'center', borderRadius: 16, width: '100%' },
+              dimensions.width
+            )}
+          >
+            <Touchable
+              onPress={() => {
+                const handler = async () => {
+                  console.log('Touchable ON_PRESS Start');
+                  let error = null;
+                  try {
+                    console.log('Start ON_PRESS:0 OPEN_IMAGE_PICKER');
+                    const result = await openImagePickerUtil({
+                      mediaTypes: 'All',
+                      allowsEditing: {
+                        mediaTypes: null,
+                        allowsEditing: null,
+                        cameraType: null,
+                        videoMaxDuration: null,
+                        quality: 1,
+                      },
+                      quality: 1,
+                    });
+                    console.log('Complete ON_PRESS:0 OPEN_IMAGE_PICKER', {
+                      result,
+                    });
+                    const pictu = (() => {
+                      console.log('Start ON_PRESS:1 SET_VARIABLE');
+                      if (Constants['UserPic']) {
+                        const __result = setGlobalVariableValue({
+                          key: 'UserPic',
+                          value: result,
+                        });
+                        console.log('Complete ON_PRESS:1 SET_VARIABLE', {
+                          pictu,
+                        });
+                        return __result;
+                      } else {
+                        console.log(
+                          'Skipped ON_PRESS:1 SET_VARIABLE: condition not met'
+                        );
+                      }
+                    })();
+                    console.log('Start ON_PRESS:2 SET_VARIABLE');
+                    setUserPicture(pictu);
+                    console.log('Complete ON_PRESS:2 SET_VARIABLE');
+                    console.log('Start ON_PRESS:3 SET_VARIABLE');
+                    setPicArray(result);
+                    console.log('Complete ON_PRESS:3 SET_VARIABLE');
+                  } catch (err) {
+                    console.error(err);
+                    error = err.message ?? err;
+                  }
+                  console.log(
+                    'Touchable ON_PRESS Complete',
+                    error ? { error } : 'no error'
+                  );
+                };
+                handler();
+              }}
+            >
+              <View>
+                <Image
+                  style={StyleSheet.applyWidth(
+                    StyleSheet.compose(
+                      GlobalStyles.ImageStyles(theme)['Image'],
+                      {
+                        borderRadius: 55,
+                        height: 110,
+                        left: 5,
+                        position: 'relative',
+                        top: 5,
+                        width: 110,
+                      }
+                    ),
+                    dimensions.width
+                  )}
+                  resizeMode={'cover'}
+                  source={Images.Ellipse21}
+                />
+                {/* Image 2 */}
+                <Image
+                  style={StyleSheet.applyWidth(
+                    StyleSheet.compose(
+                      GlobalStyles.ImageStyles(theme)['Image'],
+                      {
+                        borderRadius: 55,
+                        height: 110,
+                        left: 5,
+                        position: 'absolute',
+                        top: 5,
+                        width: 110,
+                      }
+                    ),
+                    dimensions.width
+                  )}
+                  resizeMode={'cover'}
+                  source={{ uri: `${Constants['UserPic']}` }}
+                />
+                {/* Image3 */}
+                <>
+                  {UserPicture ? null : (
+                    <Image
+                      style={StyleSheet.applyWidth(
+                        StyleSheet.compose(
+                          GlobalStyles.ImageStyles(theme)['Image'],
+                          { height: 137, position: 'absolute', width: 120 }
+                        ),
+                        dimensions.width
+                      )}
+                      resizeMode={'cover'}
+                      source={Images.EditProfile}
+                    />
+                  )}
+                </>
+              </View>
+            </Touchable>
+          </View>
           {/* StaffID */}
           <View
             style={StyleSheet.applyWidth(
@@ -212,7 +340,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 flexDirection: 'row',
                 height: 56,
                 justifyContent: 'space-around',
-                marginTop: -10,
+                marginTop: 35,
                 paddingLeft: 20,
                 paddingRight: 20,
                 width: '100%',
@@ -382,8 +510,12 @@ line two` ) and will not work with special characters inside of quotes ( example
                     console.error(err);
                   }
                 }}
-                date={EntryDate}
+                style={StyleSheet.applyWidth(
+                  { fontFamily: 'System', fontWeight: '400' },
+                  dimensions.width
+                )}
                 label={'入职时间'}
+                date={EntryDate}
                 autoDismissKeyboard={true}
                 format={'yyyy/mm/dd'}
                 leftIconMode={'inset'}
@@ -425,8 +557,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                     console.error(err);
                   }
                 }}
-                options={Constants['StaffDept']}
                 value={StaffDept}
+                options={Constants['StaffDept']}
                 autoDismissKeyboard={true}
                 iconSize={24}
                 leftIconMode={'inset'}
@@ -594,8 +726,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                     console.error(err);
                   }
                 }}
-                date={PositionTime}
                 label={'转正时间'}
+                date={PositionTime}
                 autoDismissKeyboard={true}
                 format={'yyyy/mm/dd'}
                 leftIconMode={'inset'}
@@ -637,8 +769,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                     console.error(err);
                   }
                 }}
-                options={Constants['StaffEducat']}
                 value={StaffEducation}
+                options={Constants['StaffEducat']}
                 autoDismissKeyboard={true}
                 iconSize={24}
                 leftIconMode={'inset'}
@@ -729,8 +861,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                     console.error(err);
                   }
                 }}
-                date={Birthday}
                 label={'出生日期'}
+                date={Birthday}
                 autoDismissKeyboard={true}
                 format={'yyyy/mm/dd'}
                 leftIconMode={'inset'}
@@ -850,7 +982,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 backgroundColor: 'rgb(255, 255, 255)',
                 borderRadius: 16,
                 flexDirection: 'row',
-                height: 56,
+                height: 50,
                 justifyContent: 'space-around',
                 marginTop: 20,
                 paddingLeft: 20,
@@ -862,27 +994,96 @@ line two` ) and will not work with special characters inside of quotes ( example
           >
             <View
               style={StyleSheet.applyWidth(
-                { flex: 1, flexDirection: 'column', paddingRight: 5 },
+                {
+                  flex: 1,
+                  flexDirection: 'column',
+                  height: 50,
+                  paddingRight: 5,
+                  width: 100,
+                },
                 dimensions.width
               )}
             >
-              <Picker
-                onValueChange={newPickerValue => {
-                  try {
-                    setPosition(newPickerValue);
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }}
-                options={Constants['Position']}
-                value={Position}
-                autoDismissKeyboard={true}
-                iconSize={24}
-                leftIconMode={'inset'}
-                placeholder={'职位'}
-                rightIconName={'AntDesign/downcircleo'}
-                type={'underline'}
-              />
+              <Text
+                style={StyleSheet.applyWidth(
+                  StyleSheet.compose(GlobalStyles.TextStyles(theme)['Text'], {
+                    alignSelf: 'flex-start',
+                    color: theme.colors['Medium'],
+                    fontSize: 12,
+                    marginLeft: 20,
+                  }),
+                  dimensions.width
+                )}
+              >
+                {'职位'}
+              </Text>
+
+              <View
+                style={StyleSheet.applyWidth(
+                  {
+                    alignContent: 'flex-end',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                    justifyContent: 'space-around',
+                    width: 300,
+                  },
+                  dimensions.width
+                )}
+              >
+                <Text
+                  style={StyleSheet.applyWidth(
+                    StyleSheet.compose(GlobalStyles.TextStyles(theme)['Text'], {
+                      marginRight: -20,
+                    }),
+                    dimensions.width
+                  )}
+                >
+                  {'部长'}
+                </Text>
+                <Checkbox
+                  onPress={newCheckboxValue => {
+                    try {
+                      setPosition(12);
+                    } catch (err) {
+                      console.error(err);
+                    }
+                  }}
+                  status={Position}
+                />
+                {/* Text 2 */}
+                <Text
+                  style={StyleSheet.applyWidth(
+                    GlobalStyles.TextStyles(theme)['Text'],
+                    dimensions.width
+                  )}
+                >
+                  {'课长'}
+                </Text>
+                {/* Checkbox 1 */}
+                <Checkbox
+                  style={StyleSheet.applyWidth(
+                    { left: -10, marginLeft: -10 },
+                    dimensions.width
+                  )}
+                />
+                {/* Text 3 */}
+                <Text
+                  style={StyleSheet.applyWidth(
+                    GlobalStyles.TextStyles(theme)['Text'],
+                    dimensions.width
+                  )}
+                >
+                  {'组长'}
+                </Text>
+                {/* Checkbox 3 */}
+                <Checkbox
+                  style={StyleSheet.applyWidth(
+                    { marginLeft: -20 },
+                    dimensions.width
+                  )}
+                />
+              </View>
             </View>
           </View>
           {/* Role */}
@@ -917,8 +1118,8 @@ line two` ) and will not work with special characters inside of quotes ( example
                     console.error(err);
                   }
                 }}
-                options={Constants['StaffRole']}
                 value={RoleID}
+                options={Constants['StaffRole']}
                 autoDismissKeyboard={true}
                 iconSize={24}
                 leftIconMode={'inset'}
@@ -1147,7 +1348,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       department_name: StaffDept,
                       email: Email,
                       employee_code: EmployID,
-                      icon_path: [],
+                      icon_path: PicArray,
                       identity_no: IDCard,
                       linkman: EmgContact,
                       linkman_tel: EmgCttPhone,

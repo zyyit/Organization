@@ -12,7 +12,6 @@ import CreateScreen from './screens/CreateScreen';
 import EditScreen from './screens/EditScreen';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import SearchCopyScreen from './screens/SearchCopyScreen';
 import SearchScreen from './screens/SearchScreen';
 
 const Stack = createStackNavigator();
@@ -71,7 +70,6 @@ function Placeholder() {
 function Main() {
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
       tabBarOptions={{
         showLabel: false,
         style: { borderTopColor: 'transparent' },
@@ -98,7 +96,7 @@ function Main() {
           title: 'Home',
           tabBarIcon: ({ focused, color }) => (
             <Icon
-              name="Ionicons/home"
+              name="FontAwesome/home"
               size={25}
               color={focused ? color : color}
             />

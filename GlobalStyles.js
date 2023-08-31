@@ -58,7 +58,6 @@ export const ViewStyles = theme =>
       paddingLeft: 5,
       paddingRight: 5,
     },
-    home: { marginTop: '15%' },
     top: { justifyContent: 'center', width: '100%' },
   });
 
@@ -76,11 +75,33 @@ export const ButtonStyles = theme =>
     },
   });
 
+export const CheckboxRowStyles = theme =>
+  StyleSheet.create({ 'Checkbox Row': { minHeight: 50 } });
+
+export const CircleStyles = theme =>
+  StyleSheet.create({
+    Circle: {
+      alignItems: 'center',
+      backgroundColor: theme.colors.primary,
+      justifyContent: 'center',
+    },
+  });
+
 export const DividerStyles = theme =>
   StyleSheet.create({ Divider: { height: 1 } });
 
 export const FetchStyles = theme =>
   StyleSheet.create({ Fetch: { minHeight: 40 } });
+
+export const H2Styles = theme =>
+  StyleSheet.create({
+    H2: { color: theme.colors.strong, fontSize: 24, fontWeight: 'bold' },
+  });
+
+export const H6Styles = theme =>
+  StyleSheet.create({
+    H6: { color: theme.colors.strong, fontSize: 10.72, fontWeight: 'bold' },
+  });
 
 export const ImageStyles = theme =>
   StyleSheet.create({ Image: { height: 100, width: 100 } });
@@ -107,6 +128,9 @@ export const LinkStyles = theme =>
 export const SurfaceStyles = theme =>
   StyleSheet.create({ Surface: { minHeight: 40 } });
 
+export const SwipeableItemStyles = theme =>
+  StyleSheet.create({ 'Swipeable Item': { overflow: 'hidden' } });
+
 export const TabViewItemStyles = theme =>
   StyleSheet.create({
     'Tab View Item': { flex: 1 },
@@ -119,7 +143,14 @@ export const TableCellStyles = theme =>
   StyleSheet.create({ 'Table Cell': { flex: 1, flexDirection: 'row' } });
 
 export const TextStyles = theme =>
-  StyleSheet.create({ Text: { color: theme.colors.strong } });
+  StyleSheet.create({
+    text1: {
+      alignSelf: 'flex-end',
+      color: theme.colors.strong,
+      fontSize: 16,
+      marginRight: 20,
+    },
+  });
 
 export const TextInputStyles = theme =>
   StyleSheet.create({

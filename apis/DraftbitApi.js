@@ -14,7 +14,7 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 export const carsGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/cars?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}`,
     {
       headers: {
@@ -73,7 +73,7 @@ export const FetchCarsGET = ({
 export const cryptosGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/crypto?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}`,
     {
       headers: {
@@ -136,7 +136,7 @@ export const FetchCryptosGET = ({
 export const episodesGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/podcasts?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}&_sort=created_at_utc`,
     {
       headers: {
@@ -199,7 +199,7 @@ export const FetchEpisodesGET = ({
 export const postsGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/posts?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}&_sort=created_at_utc`,
     {
       headers: {
@@ -258,7 +258,7 @@ export const FetchPostsGET = ({
 export const productsGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/products?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}`,
     {
       headers: {
@@ -323,7 +323,7 @@ export const FetchProductsGET = ({
 export const restaurantsGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/restaurants?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}`,
     {
       headers: {
@@ -386,7 +386,7 @@ export const FetchRestaurantsGET = ({
 export const reviewsGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/orders?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}&_sort=date`,
     {
       headers: {
@@ -449,7 +449,7 @@ export const FetchReviewsGET = ({
 export const todosGET = (Constants, { limit }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/todos?_limit=${encodeURIComponent(
-      `${limit ?? ''}`
+      `${typeof limit === 'string' ? limit : JSON.stringify(limit ?? '')}`
     )}`,
     {
       headers: {

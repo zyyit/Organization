@@ -30,7 +30,7 @@ const App = () => {
   const [isReady, setIsReady] = React.useState(false);
   const [fontsLoaded] = useFonts({
     Aldrich_400Regular:
-      'https://fonts.gstatic.com/s/aldrich/v17/MCoTzAn-1s3IGyJMZaAS3pP5H_E.ttf',
+      'https://fonts.gstatic.com/s/aldrich/v21/MCoTzAn-1s3IGyJMZaAS3pP5H_E.ttf',
     Inter_600SemiBold:
       'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf',
   });

@@ -338,7 +338,7 @@ export const FetchRestaurantsGET = ({
 export const usersGET = (Constants, { count }, handlers = {}) =>
   fetch(
     `https://example-data.draftbit.com/users?_limit=${encodeURIComponent(
-      `${count ?? ''}`
+      `${typeof count === 'string' ? count : JSON.stringify(count ?? '')}`
     )}`,
     {
       headers: {
