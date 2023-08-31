@@ -29,7 +29,7 @@
     },
     "android": {
       "versionCode": 1,
-      "package": "com.draftbit.untitledapp",
+      "package": "com.xianyuri.organization",
       "permissions": [
         "CAMERA"
       ],
