@@ -323,13 +323,14 @@ line two` ) and will not work with special characters inside of quotes ( example
                       onDateChange={newDatePickerValue => {
                         try {
                           console.log(newDatePickerValue);
+                          setEntryDate(newDatePickerValue);
                         } catch (err) {
                           console.error(err);
                         }
                       }}
                       label={'入职时间'}
+                      date={EntryDate}
                       autoDismissKeyboard={true}
-                      defaultValue={listData?.start_time}
                       format={'yyyy-mm-dd'}
                       leftIconMode={'inset'}
                       mode={'date'}
@@ -435,9 +436,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                     )}
                   >
                     <DatePicker
+                      onDateChange={newDatePickerValue => {
+                        try {
+                          setPositionTime(newDatePickerValue);
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
                       label={'转正时间'}
+                      date={PositionTime}
                       autoDismissKeyboard={true}
-                      defaultValue={listData?.trun_date}
                       leftIconMode={'inset'}
                       mode={'date'}
                       rightIconName={'AntDesign/calendar'}
@@ -548,9 +556,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                     )}
                   >
                     <DatePicker
+                      onDateChange={newDatePickerValue => {
+                        try {
+                          setBirthday(newDatePickerValue);
+                        } catch (err) {
+                          console.error(err);
+                        }
+                      }}
                       label={'出生日期'}
+                      date={Birthday}
                       autoDismissKeyboard={true}
-                      defaultValue={listData?.birthday}
                       leftIconMode={'inset'}
                       mode={'date'}
                       rightIconName={'AntDesign/calendar'}

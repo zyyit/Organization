@@ -6,13 +6,13 @@ import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import openImagePickerUtil from '../utils/openImagePicker';
-import showAlertUtil from '../utils/showAlert';
 import {
   Button,
   Checkbox,
   DatePicker,
   Icon,
   Picker,
+  Pressable,
   RadioButton,
   RadioButtonGroup,
   ScreenContainer,
@@ -36,6 +36,40 @@ const CreateScreen = props => {
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
   const setGlobalVariableValue = GlobalVariables.useSetValue();
+
+  const insertMessage = () => {
+    // Type the code for the body of your function or hook here.
+    // Functions can be triggered via Button/Touchable actions.
+    // Hooks are run per ReactJS rules.
+
+    /* String line breaks are accomplished with backticks ( example: `line one
+line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
+    if (insertCode.code == '200') {
+      Alert.alert(
+        'Message',
+        'Success！',
+        [
+          {
+            text: 'OK',
+          },
+        ],
+        { cancelable: false }
+      );
+      return false;
+    } else {
+      Alert.alert(
+        'Message',
+        'Error',
+        [
+          {
+            text: 'OK',
+          },
+        ],
+        { cancelable: false }
+      );
+      return false;
+    }
+  };
 
   const convertBoolToString = boolText => {
     // Type the code for the body of your function or hook here.
@@ -179,6 +213,7 @@ line two` ) and will not work with special characters inside of quotes ( example
   const [checkboxRowValue, setCheckboxRowValue] = React.useState('');
   const [checkboxValue, setCheckboxValue] = React.useState(false);
   const [checkboxValue2, setCheckboxValue2] = React.useState(false);
+  const [insertCode, setInsertCode] = React.useState({});
   const [radioButtonGroupValue, setRadioButtonGroupValue] = React.useState('');
   const [radioButtonGroupValue2, setRadioButtonGroupValue2] =
     React.useState('');
@@ -187,8 +222,8 @@ line two` ) and will not work with special characters inside of quotes ( example
   return (
     <ScreenContainer hasSafeArea={false} scrollable={false}>
       <KeyboardAwareScrollView
-        enableAutomaticScroll={false}
-        enableOnAndroid={false}
+        enableAutomaticScroll={true}
+        enableOnAndroid={true}
         enableResetScrollToCoords={false}
         keyboardShouldPersistTaps={'never'}
         showsVerticalScrollIndicator={false}
@@ -212,62 +247,34 @@ line two` ) and will not work with special characters inside of quotes ( example
               dimensions.width
             )}
           >
-            <Touchable
+            <Pressable
               onPress={() => {
                 const handler = async () => {
-                  console.log('Touchable ON_PRESS Start');
-                  let error = null;
                   try {
-                    console.log('Start ON_PRESS:0 OPEN_IMAGE_PICKER');
                     const result = await openImagePickerUtil({
                       mediaTypes: 'All',
-                      allowsEditing: {
-                        mediaTypes: null,
-                        allowsEditing: null,
-                        cameraType: null,
-                        videoMaxDuration: null,
-                        quality: 1,
-                      },
-                      quality: 1,
+                      allowsEditing: false,
+                      quality: 0.2,
                     });
-                    console.log('Complete ON_PRESS:0 OPEN_IMAGE_PICKER', {
-                      result,
-                    });
+
                     const pictu = (() => {
-                      console.log('Start ON_PRESS:1 SET_VARIABLE');
                       if (Constants['UserPic']) {
-                        const __result = setGlobalVariableValue({
+                        return setGlobalVariableValue({
                           key: 'UserPic',
                           value: result,
                         });
-                        console.log('Complete ON_PRESS:1 SET_VARIABLE', {
-                          pictu,
-                        });
-                        return __result;
-                      } else {
-                        console.log(
-                          'Skipped ON_PRESS:1 SET_VARIABLE: condition not met'
-                        );
                       }
                     })();
-                    console.log('Start ON_PRESS:2 SET_VARIABLE');
                     setUserPicture(pictu);
-                    console.log('Complete ON_PRESS:2 SET_VARIABLE');
-                    console.log('Start ON_PRESS:3 SET_VARIABLE');
                     setPicArray(result);
-                    console.log('Complete ON_PRESS:3 SET_VARIABLE');
                   } catch (err) {
                     console.error(err);
-                    error = err.message ?? err;
                   }
-                  console.log(
-                    'Touchable ON_PRESS Complete',
-                    error ? { error } : 'no error'
-                  );
                 };
                 handler();
               }}
             >
+              {/* View 2 */}
               <View>
                 <Image
                   style={StyleSheet.applyWidth(
@@ -323,7 +330,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   )}
                 </>
               </View>
-            </Touchable>
+            </Pressable>
           </View>
           {/* StaffID */}
           <View
@@ -548,25 +555,25 @@ line two` ) and will not work with special characters inside of quotes ( example
                 { flex: 1, paddingRight: 5 },
                 dimensions.width
               )}
-            >
-              <Picker
-                onValueChange={newPickerValue => {
-                  try {
-                    setStaffDept(newPickerValue);
-                  } catch (err) {
-                    console.error(err);
-                  }
-                }}
-                value={StaffDept}
-                options={Constants['StaffDept']}
-                autoDismissKeyboard={true}
-                iconSize={24}
-                leftIconMode={'inset'}
-                placeholder={'所属部门'}
-                rightIconName={'AntDesign/downcircleo'}
-                type={'underline'}
-              />
-            </View>
+            />
+            <Picker
+              onValueChange={newPickerValue => {
+                try {
+                  setStaffDept(newPickerValue);
+                } catch (err) {
+                  console.error(err);
+                }
+              }}
+              value={StaffDept}
+              options={Constants['StaffDept']}
+              autoDismissKeyboard={true}
+              iconSize={24}
+              leftIconMode={'inset'}
+              placeholder={'所属部门'}
+              placeholderTextColor={theme.colors['Custom Color_9']}
+              rightIconName={'AntDesign/downcircleo'}
+              type={'underline'}
+            />
           </View>
           {/* WorkStatus */}
           <View
@@ -737,7 +744,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               />
             </View>
           </View>
-          {/* Staff Education */}
+          {/* StaffEducat */}
           <View
             style={StyleSheet.applyWidth(
               {
@@ -1011,6 +1018,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                     color: theme.colors['Medium'],
                     fontSize: 12,
                     marginLeft: 20,
+                    textAlign: 'left',
                   }),
                   dimensions.width
                 )}
@@ -1338,7 +1346,7 @@ line two` ) and will not work with special characters inside of quotes ( example
               const handler = async () => {
                 try {
                   CheckInput(Variables);
-                  (
+                  const insertCode = (
                     await organizationInsertInfoPOST.mutateAsync({
                       address: '西安市',
                       appTantouCd: 'admin',
@@ -1348,7 +1356,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       department_name: StaffDept,
                       email: Email,
                       employee_code: EmployID,
-                      icon_path: PicArray,
+                      icon_path: [],
                       identity_no: IDCard,
                       linkman: EmgContact,
                       linkman_tel: EmgCttPhone,
@@ -1357,7 +1365,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       parttime_kb: convertBoolToString(PositState),
                       password: EmployPassWord,
                       position_id: Position,
-                      qualification_id: '',
+                      qualification_id: StaffEducation,
                       retirement_date: '2099-12-31',
                       role_id: RoleID,
                       start_time: EntryDate,
@@ -1367,12 +1375,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       work_status: radioButtonGroupValue,
                     })
                   )?.json;
-
-                  showAlertUtil({
-                    title: 'Message',
-                    message: 'Post Sucess',
-                    buttonText: 'OK',
-                  });
+                  insertMessage();
                 } catch (err) {
                   console.error(err);
                 }

@@ -70,6 +70,7 @@ function Placeholder() {
 function Main() {
   return (
     <Tab.Navigator
+      initialRouteName="HomeScreen"
       tabBarOptions={{
         showLabel: false,
         style: { borderTopColor: 'transparent' },
@@ -124,19 +125,19 @@ function Main() {
 export default function RootAppNavigator() {
   return (
     <NavigationContainer linking={LinkingConfiguration}>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="LoginScreen">
         <Stack.Screen
           name="LoginScreen"
           component={LoginScreen}
           options={{
-            title: 'Login',
+            title: 'login',
           }}
         />
         <Stack.Screen
           name="EditScreen"
           component={EditScreen}
           options={{
-            title: 'Edit',
+            title: 'edit',
           }}
         />
         <Stack.Screen name="Main" component={Main} />

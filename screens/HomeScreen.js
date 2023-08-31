@@ -4,10 +4,12 @@ import * as GlobalVariables from '../config/GlobalVariableContext';
 import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
+import openImagePickerUtil from '../utils/openImagePicker';
 import {
   BottomSheet,
   Button,
   IconButton,
+  Pressable,
   ScreenContainer,
   withTheme,
 } from '@draftbit/ui';
@@ -26,6 +28,60 @@ const HomeScreen = props => {
   const dimensions = useWindowDimensions();
   const Constants = GlobalVariables.useValues();
   const Variables = Constants;
+
+  const logoutcheck = () => {
+    console.log('version:1.92');
+
+    // var isLogout=false;
+
+    // if(Platform.OS=="ios"||Platform.OS=="android"){
+    //   await Alert.alert(
+    //   '提示',
+    //   '确认登出？',
+    //   [
+    //     {
+    //       text: "是",
+    //       onPress: async ()=>{isLogout=true},
+    //     },
+    //     {
+    //       text: "否",
+    //       onPress: async ()=>{isLogout=false},
+    //     }
+    //   ],
+    //   { cancelable: false }
+    //   );
+    //   console.log("fun:"+isLogout);
+    //   return isLogout;
+    // }else{
+    //   return confirm("确认登出？");
+    // }
+    function check(callback) {
+      if (Platform.OS == 'ios' || Platform.OS == 'android') {
+        Alert.alert(
+          '提示',
+          '确认登出？',
+          [
+            {
+              text: '是',
+              onPress: () => callback(true),
+            },
+            {
+              text: '否',
+              onPress: () => callback(false),
+            },
+          ],
+          { cancelable: false }
+        );
+      } else {
+        callback(confirm('确认登出？'));
+      }
+    }
+
+    return check(isLogout => {
+      console.log('fun:' + isLogout);
+      return isLogout;
+    });
+  };
 
   const getToday = () => {
     // Type the code for the body of your function or hook here.
@@ -47,69 +103,7 @@ line two` ) and will not work with special characters inside of quotes ( example
     return '今天是' + year + '年' + month + '月' + day + '日，星期' + weekday;
   };
 
-  const logoutcheck = () => {
-    // Type the code for the body of your function or hook here.
-    // Functions can be triggered via Button/Touchable actions.
-    // Hooks are run per ReactJS rules.
-
-    /* String line breaks are accomplished with backticks ( example: `line one
-line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
-    // var isLogout;
-    // var isTrue=new Promise((isLogout) => isLogout=true)
-    // var isFlase=new Promise((isLogout) => isLogout=false)
-    // if(Platform.OS=="ios"||Platform.OS=="android"){
-    //     Alert.alert(
-    //     '提示',
-    //     '确认登出？',
-    //     [
-    //       {
-    //         text: "是",
-    //         onPress: isTrue(isLogout),
-    //       },
-    //       {
-    //         text: "否",
-    //         onPress:() => isLogout=false,
-    //       }
-    //     ],
-    //   );
-    //   console.log(isLogout);
-    //   return isLogout;
-    // }else{
-    //   return confirm("确认登出？");
-    // }
-    function isTrue(isLogout) {
-      return new Promise(isLogout => (isLogout = true));
-    }
-
-    function isFlase(isLogout) {
-      return new Promise(isLogout => (isLogout = false));
-    }
-
-    async function tip() {
-      var isLogout = false;
-      if (Platform.OS == 'ios' || Platform.OS == 'android') {
-        Alert.alert('提示', '确认登出？', [
-          {
-            text: '是',
-            onPress: await isTrue(isLogout),
-          },
-          {
-            text: '否',
-            onPress: await isFlase(isLogout),
-          },
-        ]);
-        console.log(isLogout);
-        return isLogout;
-      } else {
-        return confirm('确认登出？');
-      }
-    }
-    var isLogout = tip();
-    return isLogout;
-  };
-
   const { theme } = props;
-  const { navigation } = props;
 
   const isFocused = useIsFocused();
   React.useEffect(() => {
@@ -124,6 +118,7 @@ line two` ) and will not work with special characters inside of quotes ( example
     }
   }, [isFocused]);
   const [Toady, setToady] = React.useState('');
+  const [isLogout, setIsLogout] = React.useState(false);
   const [isShowButtomSheet, setIsShowButtomSheet] = React.useState(false);
 
   return (
@@ -453,6 +448,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   alignItems: 'center',
                   borderColor: 'rgb(231, 231, 231)',
                   borderTopWidth: 1,
+                  paddingBottom: 5,
                   paddingTop: 5,
                   width: '100%',
                 },
@@ -463,7 +459,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                 onPress={() => {
                   try {
                     const result = logoutcheck();
-                    navigation.navigate('LoginScreen');
                     console.log(result);
                   } catch (err) {
                     console.error(err);
