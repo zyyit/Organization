@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Organization",
-    "slug": "organization",
-    "scheme": "untitled-app",
+    "slug": "xayr-organization",
+    "scheme": "organization",
     "description": "My app powered by Draftbit",
     "privacy": "unlisted",
     "platforms": [

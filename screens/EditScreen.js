@@ -272,10 +272,16 @@ line two` ) and will not work with special characters inside of quotes ( example
                 >
                   <View
                     style={StyleSheet.applyWidth(
-                      { flex: 1, paddingRight: 10 },
+                      {
+                        alignItems: 'center',
+                        flex: 1,
+                        flexDirection: 'row',
+                        paddingRight: 10,
+                      },
                       dimensions.width
                     )}
                   >
+                    <Icon name={'AntDesign/key'} size={24} />
                     <TextInput
                       style={StyleSheet.applyWidth(
                         GlobalStyles.TextInputStyles(theme)['Text Input'],
@@ -359,7 +365,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                 >
                   <View
                     style={StyleSheet.applyWidth(
-                      { flex: 1, paddingRight: 5 },
+                      { flex: 1, flexDirection: 'row', paddingRight: 5 },
                       dimensions.width
                     )}
                   >
@@ -641,10 +647,21 @@ line two` ) and will not work with special characters inside of quotes ( example
                 >
                   <View
                     style={StyleSheet.applyWidth(
-                      { flex: 1, paddingRight: 10 },
+                      {
+                        alignContent: 'stretch',
+                        alignItems: 'center',
+                        alignSelf: 'stretch',
+                        flexDirection: 'row',
+                        flexGrow: 100,
+                        paddingRight: 10,
+                      },
                       dimensions.width
                     )}
                   >
+                    <Icon
+                      name={'MaterialCommunityIcons/email-edit-outline'}
+                      size={24}
+                    />
                     <TextInput
                       style={StyleSheet.applyWidth(
                         GlobalStyles.TextInputStyles(theme)['Text Input'],
@@ -657,10 +674,6 @@ line two` ) and will not work with special characters inside of quotes ( example
                       placeholderTextColor={theme.colors['Light']}
                     />
                   </View>
-                  <Icon
-                    name={'MaterialCommunityIcons/email-edit-outline'}
-                    size={24}
-                  />
                 </View>
                 {/* Position */}
                 <View

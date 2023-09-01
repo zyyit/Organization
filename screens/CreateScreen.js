@@ -6,6 +6,7 @@ import Images from '../config/Images';
 import Breakpoints from '../utils/Breakpoints';
 import * as StyleSheet from '../utils/StyleSheet';
 import openImagePickerUtil from '../utils/openImagePicker';
+import showAlertUtil from '../utils/showAlert';
 import {
   Button,
   Checkbox,
@@ -185,6 +186,7 @@ line two` ) and will not work with special characters inside of quotes ( example
   };
 
   const { theme } = props;
+  const { navigation } = props;
 
   const organizationInsertInfoPOST = OrganizationApi.useInsertInfoPOST();
 
@@ -1347,8 +1349,11 @@ line two` ) and will not work with special characters inside of quotes ( example
             onPress={() => {
               const handler = async () => {
                 try {
-                  CheckInput(Variables);
-                  const InsertCode = (
+                  const checkFlag = CheckInput(Variables);
+                  if (checkFlag === false) {
+                    return;
+                  }
+                  const result = (
                     await organizationInsertInfoPOST.mutateAsync({
                       address: '西安市',
                       appTantouCd: 'admin',
@@ -1377,8 +1382,23 @@ line two` ) and will not work with special characters inside of quotes ( example
                       work_status: radioButtonGroupValue,
                     })
                   )?.json;
-                  setInsertCode(InsertCode);
-                  insertMessage(Variables);
+                  if (result?.message === 'success') {
+                    showAlertUtil({
+                      title: 'Message',
+                      message: 'Success',
+                      buttonText: 'OK',
+                    });
+                  }
+                  if (result?.message !== 'success') {
+                    showAlertUtil({
+                      title: 'Message',
+                      message: 'Error',
+                      buttonText: 'OK',
+                    });
+                  }
+                  if (result?.message === 'success') {
+                    navigation.navigate('SearchScreen');
+                  }
                 } catch (err) {
                   console.error(err);
                 }
