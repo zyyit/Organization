@@ -35,7 +35,7 @@
     "@shopify/mime-types": "^2.1.0",
     "expo": "~48.0.20",
     "expo-asset": "~8.9.1",
-    "expo-av": "~13.2.1",
+    "expo-av": "~13.4.1",
     "expo-blur": "~12.2.2",
     "expo-camera": "~13.2.1",
     "expo-constants": "~14.2.1",

@@ -10,7 +10,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.4.0",
     "orientation": "default",
     "icon": "./assets/app/icon.png",
     "splash": {
@@ -23,12 +23,12 @@
     ],
     "ios": {
       "bundleIdentifier": "com.draftbit.untitledapp",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.4.0",
       "infoPlist": {},
       "usesIcloudStorage": false
     },
     "android": {
-      "versionCode": 1,
+      "versionCode": 4,
       "package": "com.xianyuri.organization",
       "permissions": [
         "CAMERA"

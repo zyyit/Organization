@@ -150,6 +150,19 @@ line two` ) and will not work with special characters inside of quotes ( example
     }
   };
 
+  const delBase64Prefix = base64Str => {
+    // Type the code for the body of your function or hook here.
+    // Functions can be triggered via Button/Touchable actions.
+    // Hooks are run per ReactJS rules.
+
+    /* String line breaks are accomplished with backticks ( example: `line one
+line two` ) and will not work with special characters inside of quotes ( example: "line one line two" ) */
+
+    if (base64Str != null && base64Str !== '') {
+      return base64Str.replace(/^data:image\/\w+;base64,/, '');
+    }
+  };
+
   const insertMessage = Variables => {
     // Type the code for the body of your function or hook here.
     // Functions can be triggered via Button/Touchable actions.
@@ -217,6 +230,7 @@ line two` ) and will not work with special characters inside of quotes ( example
   const [checkboxRowValue, setCheckboxRowValue] = React.useState('');
   const [checkboxValue, setCheckboxValue] = React.useState(false);
   const [checkboxValue2, setCheckboxValue2] = React.useState(false);
+  const [postPicture, setPostPicture] = React.useState('');
   const [radioButtonGroupValue, setRadioButtonGroupValue] = React.useState('');
   const [radioButtonGroupValue2, setRadioButtonGroupValue2] =
     React.useState('');
@@ -268,8 +282,10 @@ line two` ) and will not work with special characters inside of quotes ( example
                         });
                       }
                     })();
+                    setPostPicture(delBase64Prefix(Constants['UserPic']));
                     setUserPicture(pictu);
                     setPicArray(result);
+                    console.log(postPicture);
                   } catch (err) {
                     console.error(err);
                   }
@@ -1363,7 +1379,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                       department_name: StaffDept,
                       email: Email,
                       employee_code: EmployID,
-                      icon_path: [],
+                      icon_path: postPicture,
                       identity_no: IDCard,
                       linkman: EmgContact,
                       linkman_tel: EmgCttPhone,
@@ -1385,7 +1401,7 @@ line two` ) and will not work with special characters inside of quotes ( example
                   if (result?.message === 'success') {
                     showAlertUtil({
                       title: 'Message',
-                      message: 'Success',
+                      message: result,
                       buttonText: 'OK',
                     });
                   }
